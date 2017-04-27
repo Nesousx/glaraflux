@@ -1,0 +1,25 @@
+# docker-compose for Glances
+version: '2'
+
+services:
+  glances:
+    image: docker.io/nicolargo/glances
+    container_name: glances
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./conf/glances.conf:/glances/conf/glances.conf
+#      - ./scripts:/scripts
+#      - /home/nesousx/fake:/srv/fake
+    environment:
+      - GLANCES_OPT=-q --export-influxdb
+    pid: "host"
+    restart: always
+    networks:
+      default:
+        aliases:
+          - glances
+
+networks:
+  default:
+    external:
+      name: br0

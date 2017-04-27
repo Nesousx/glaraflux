@@ -1,0 +1,26 @@
+# docker-compose for Nginx
+version: '2'
+
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./websites:/websites
+      - /etc/letsencrypt:/etc/nginx/ssl
+      - /srv/data/ssl/dhparam.pem:/etc/nginx/cert/dhparam.pem
+    #environment:
+    restart: always
+    networks:
+      default:
+        aliases:
+          - nginx
+
+networks:
+  default:
+    external:
+      name: br0

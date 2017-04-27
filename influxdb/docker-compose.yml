@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+#      - "8083:8083"
+#      - "8086:8086"
+      - "2003:2003"
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    environment:
+      - INFLUXDB_GRAPHITE_ENABLED=true
+    restart: always
+    networks:
+      default:
+        aliases:
+          - influxdb
+
+networks:
+  default:
+    external:
+      name: br0
+
+volumes:
+  influxdb-storage:
+
